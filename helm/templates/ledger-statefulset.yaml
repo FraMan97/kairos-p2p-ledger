@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kairos-ledger
+spec:
+  serviceName: "kairos-ledger"
+  replicas: {{ .Values.ledger.replicas }}
+  selector:
+    matchLabels:
+      app: kairos-ledger
+  template:
+    metadata:
+      labels:
+        app: kairos-ledger
+    spec:
+      containers:
+        - name: ledger
+          image: {{ .Values.ledger.image }}
+          imagePullPolicy: {{ .Values.ledger.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.ledger.port }}
+          env:
+            - name: PORT
+              value: "{{ .Values.ledger.port }}"
+            - name: DB_PATH
+              value: "/data"
+            - name: OTS_DIGEST_URL
+              value: "{{ .Values.ledger.otsDigestUrl }}"
+            - name: OTS_UPGRADE_URL
+              value: "{{ .Values.ledger.otsUpgradeUrl }}"
+          volumeMounts:
+            - name: ledger-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: ledger-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.ledger.storage }}

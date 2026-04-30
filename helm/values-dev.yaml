@@ -1,0 +1,8 @@
+ledger:
+  image: kairos-ledger:local
+  pullPolicy: Never
+  replicas: 1
+  port: 8080
+  storage: 1Gi
+  otsDigestUrl: "https://a.pool.opentimestamps.org/digest"
+  otsUpgradeUrl: "https://a.pool.opentimestamps.org/upgrade"

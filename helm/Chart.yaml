@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kairos-ledger
+description: Helm chart for Kairos Ledger
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
