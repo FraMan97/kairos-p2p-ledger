@@ -13,6 +13,13 @@ spec:
       labels:
         app: kairos-ledger
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: [ "sh", "-c", "chmod -R 777 /data" ]
+          volumeMounts:
+            - name: ledger-data
+              mountPath: /data
       containers:
         - name: ledger
           image: {{ .Values.ledger.image }}
